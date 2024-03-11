@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path(r'^accounts/login/$', views.login, name='login'),
     path(r'^accounts/logout/$', views.logout, name='logout', kwargs={'next_page': '/'}),
-    path('', include('blog.urls')),
+    path('', include('blog.urls')), #모든 접속 요청을 blog.urls로 전송해줌.
 ]
