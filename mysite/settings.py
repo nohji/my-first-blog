@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+# 현재 프로젝트 파일의 루트폴더의 위치, 즉 프로젝트가 위치한 곳을 의미한다.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -20,26 +21,39 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# 장고 웹서버에서 인증이 필요한 부분에 사용되는 비밀키라고 생각하면 된다.
+# 이 SECRET_KEY는 서비스 제공시 절대 노출되어서는 안되는 값이며 이 다른 파일로 따로 빼서 관리할 수 있다. 
 SECRET_KEY = 'q0t4e-!cjvxy0e7qf82#thei%jwerv#30hcgu7j&wa@9!9_hg8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# 디버깅 모드.
+# 프로젝트를 생성하면 Default값이 True로 설정되어 있으며 발생 시 오류가 어느 부분에서 어떤 오류가 발생하였는지 구체적으로 알려준다.
+# 이 설정 역시 배포할 때는 False로 바꾸고 배포를 진행해야 한다.
 DEBUG = True
 
+# 의미 그래도 허용된 호스트들.
+# 접속을 허용할 호스트들(도메인)을 이곳에 등록해주어야 한다.
+# Defalut값은 빈 리스트이지만 디버그 모드가 True이면 자동적으로 localhost 와 127.0.0.1이 접속가능한 호스트들로 등록되어 있다.
 ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
 
 
 # Application definition
-
+# 프로젝트 안에 생성한 앱, 그리고 기본적으로 설치된 앱 이외에 별도로 설치한 앱들은 이곳에 명시해주어야만 장고에서 사용할 수 있다.
 INSTALLED_APPS = [
+    # 기본적으로 설된 앱
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 생성된 앱
     'blog',
 ]
 
+# Django의 요청/응답 처리에 대한 후크 프레임 워크로써 Django 상의 모든 API 입출력을 전역적으로 변경하기 위한 low-level의 플로그인 시스템이다.
+# 순서가 뒤바뀌면 안됨
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -50,8 +64,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# 기준이 되는 URL 파일의 경로를 의미
 ROOT_URLCONF = 'mysite.urls'
 
+# 장고에서 제공하는 템플릿에 관한 기능들을 정의하는 내용이 담겨져 있다.
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -68,12 +84,14 @@ TEMPLATES = [
     },
 ]
 
+# WSGI : Web Server Gateway Interface 의 줄임말.
+# 웹서버에 동적 요청이 발생하면 웹 서버가 WSGI 서버를 호출하고 다시 그 WSGI 서버는 파이썬 프로그램을 호출하여 동적 페이지 요청을 처리한다.
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
+# 데이터베이스 관련 설정.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -84,18 +102,22 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
-
+# 비밀번호의 복잡도에 관한 내용이 들어있다.
 AUTH_PASSWORD_VALIDATORS = [
     {
+        # username과 비밀번호가 유사한지 확인.
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
+        # 비밀번호의 최소 자리수를 지정해준다.
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
+        # common한 비밀번호 1000개의 리스트와 비교한다.
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
+        # 전부 숫자인 비밀번호는 사용하지 못하게 한다.
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
@@ -104,21 +126,26 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
+# 언어를 설정하는 변수
 LANGUAGE_CODE = 'ko'
 
+# 시스템의 시간대를 설정하는 부분
 TIME_ZONE = 'Asia/Seoul'
 
+# 장고의 번역 시스템 활성화 여부를 나타냄.
 USE_I18N = True
 
 USE_L10N = True
 
+# Timezone의 사용여부 
+# False면 모든 datetime들을 표시하고 True면 templete와 form에만 적용된다.
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-
+# static파일들의 경로를 지정하는데 사용한다.
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'djangogirls','static'),  # base_dir은 프로젝트 폴더
